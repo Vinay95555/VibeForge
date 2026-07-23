@@ -99,21 +99,42 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       return token;
     },
 
+    // async session({ session, token }) {
+    //   // Attach the user ID from the token to the session
+    // if(token.sub  && session.user){
+    //   session.user.id = token.sub
+    // } 
+
+    // if(token.sub && session.user){
+    //   session.user.role = token.role
+    // }
+
+    // return session;
+    // },
     async session({ session, token }) {
-      // Attach the user ID from the token to the session
-    if(token.sub  && session.user){
-      session.user.id = token.sub
-    } 
-
-    if(token.sub && session.user){
-      session.user.role = token.role
-    }
-
+  if (!session.user) {
     return session;
-    },
+  }
+
+  if (token?.sub) {
+    session.user.id = token.sub;
+  }
+
+  if (token?.role) {
+    session.user.role = token.role;
+  }
+
+  return session;
+},
   },
   
   secret: process.env.AUTH_SECRET,
-  adapter: PrismaAdapter(db),
-  ...authConfig,
+
+adapter: PrismaAdapter(db),
+
+session: {
+  strategy: "jwt",
+},
+
+...authConfig,
 })
