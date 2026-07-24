@@ -3,7 +3,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter"
 
 import authConfig from "./auth.config"
 import { db } from "./lib/db";
-import { getAccountByUserId, getUserById } from "./modules/auth/actions";
+import { getUserById } from "./modules/auth/actions";
 
 
  
@@ -31,7 +31,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
             image: user.image,
            
             accounts: {
-              // @ts-expect-error
+              // @ts-expect-error - Prisma accounts create input type mismatch
               create: {
                 type: account.type,
                 provider: account.provider,
@@ -74,7 +74,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
               tokenType: account.token_type,
               scope: account.scope,
               idToken: account.id_token,
-              // @ts-expect-error
+              // @ts-expect-error - Prisma sessionState type mismatch
               sessionState: account.session_state,
             },
           });
@@ -89,8 +89,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const existingUser = await getUserById(token.sub)
 
       if(!existingUser) return token;
-
-      const exisitingAccount = await getAccountByUserId(existingUser.id);
 
       token.name = existingUser.name;
       token.email = existingUser.email;
