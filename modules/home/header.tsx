@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import UserButton from "../components/user-button";
+import UserButton from "@/modules/auth/components/user-button";
 
 export function Header() {
   return (
@@ -41,7 +41,7 @@ export function Header() {
                     />
 
                     <span className="hidden sm:block font-extrabold text-lg">
-                      VibeCode Editor
+                      VibeForge
                     </span>
                   </Link>
                   <span className="text-zinc-300 dark:text-zinc-700">|</span>
@@ -77,7 +77,7 @@ export function Header() {
                   <span className="text-zinc-300 dark:text-zinc-700">|</span>
                   {/* <HeaderPro /> */}
                   <ThemeToggle />
-                  <UserButton/>
+                  <UserButton />
                 </div>
 
                 {/* Mobile Navigation remains unchanged */}
@@ -95,7 +95,7 @@ export function Header() {
                     API
                   </Link>
                   <ThemeToggle />
-                  <UserButton/>
+                  <UserButton />
                 </div>
               </div>
             </div>

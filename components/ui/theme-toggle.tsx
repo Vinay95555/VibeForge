@@ -1,24 +1,36 @@
-"use client"
 
-import * as React from "react"
-import { Moon, Sun } from "lucide-react"
-import { useTheme } from "next-themes"
+"use client";
 
-import { Button } from "@/components/ui/button"
+import { useTheme } from "next-themes";
+import { useSyncExternalStore } from "react";
+import { Moon, Sun } from "lucide-react";
+
+const emptySubscribe = () => () => {};
 
 export function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+    const { setTheme, theme } = useTheme();
+    const mounted = useSyncExternalStore(
+        emptySubscribe,
+        () => true,
+        () => false
+    );
 
-  return (
-    <Button
-      variant="ghost"
-      size="icon"
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      title="Toggle theme"
-    >
-      <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-      <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-      <span className="sr-only">Toggle theme</span>
-    </Button>
-  )
+    if (!mounted) {
+        return null;
+    }
+
+    return (
+        <div
+            className="cursor-pointer"
+            onClick={() => {
+                setTheme(theme === "light" ? "dark" : "light");
+            }}
+        >
+            {
+                theme === "light" ? (<Moon className="h-5 w-5 text-black" />) : (<Sun className="h-5 w-5 text-white" color="white" />)
+            }
+        </div>
+    )
 }
+
+
