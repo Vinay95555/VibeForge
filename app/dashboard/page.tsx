@@ -2,7 +2,12 @@ import AddNewButton from '@/modules/dashboard/components/add-new'
 import AddRepo from '@/modules/dashboard/components/add-repo'
 import EmptyState from '@/modules/dashboard/components/empty-state'
 import ProjectTable from '@/modules/dashboard/components/project-table'
-import { getPlaygroundsForUser } from '@/modules/dashboard/actions'
+import {
+    getPlaygroundsForUser,
+    updatePlayground,
+    deletePlayground,
+    duplicatePlayground,
+} from '@/modules/dashboard/actions'
 import React from 'react'
 
 const Page = async () => {
@@ -20,6 +25,9 @@ const Page = async () => {
                 ) : (
                     <ProjectTable
                         projects={playgrounds || []}
+                        onUpdateProject={updatePlayground}
+                        onDeleteProject={deletePlayground}
+                        onDuplicateProject={duplicatePlayground}
                     />
                 )}
             </div>
